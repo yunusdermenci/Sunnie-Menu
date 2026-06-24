@@ -22,6 +22,7 @@ body {
   min-height: 100vh;
   background-color: var(--cream);
   background-image: url("assets/background.png");
+  background-attachment: fixed;
   background-size: 620px auto;
   background-position: center top;
   color: var(--ink);
@@ -341,6 +342,7 @@ body.detail-view .back-button {
   font-size: 0.82rem;
   font-weight: 500;
   line-height: 1.25;
+  text-align: center;
 }
 
 .site-footer p {
