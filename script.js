@@ -82,7 +82,7 @@ const menu = [
   },
   {
     title: "Yaz Esintisi",
-    image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&q=80&w=1200&sat=20",
     items: [
       { name: "Cool Lime", description: "İlave şurup ile tatlandırılabilir (+20)", price: 150 },
       { name: "Limonata", price: 180 },
