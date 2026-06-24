@@ -92,7 +92,7 @@ const menu = [
   },
   {
     title: "Special",
-    image: "",
+    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=1200",
     items: [
       { name: "Affogato", description: "Bir top vanilyalı dondurma üzerine sıcak espresso dökülerek hazırlanır.", price: 200 },
       { name: "Karamel Affogato", description: "Bir top karamelli dondurmanın üzerine sıcak espresso dökülmesiyle hazırlanır.", price: 210 },
@@ -100,6 +100,13 @@ const menu = [
     ]
   }
 ];
+
+const app = document.querySelector("#app");
+const backButton = document.querySelector(".back-button");
+const modal = document.querySelector(".modal");
+const modalTitle = document.querySelector("#modal-title");
+const modalDescription = document.querySelector("#modal-description");
+const modalPrice = document.querySelector("#modal-price");
 
 const slugify = (text) =>
   text
@@ -110,57 +117,107 @@ const slugify = (text) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-const formatPrice = (price) =>
-  new Intl.NumberFormat("tr-TR", {
-    style: "currency",
-    currency: "TRY",
-    maximumFractionDigits: 0
-  }).format(price);
+const formatPrice = (price) => `${price.toLocaleString("tr-TR")} ₺`;
 
-function renderNavigation() {
-  const nav = document.querySelector(".category-nav");
-  nav.innerHTML = menu
-    .map((category) => `<a href="#${slugify(category.title)}">${category.title}</a>`)
-    .join("");
+function getCategoryFromHash() {
+  const match = window.location.hash.match(/^#\/category\/(.+)$/);
+  if (!match) return null;
+  return menu.find((category) => slugify(category.title) === match[1]) || null;
 }
 
-function renderMenu() {
-  const container = document.querySelector("#menu");
-
-  container.innerHTML = menu
-    .map((category) => {
-      const id = slugify(category.title);
-      const image = category.image
-        ? `<img src="${category.image}" alt="${category.title}" loading="lazy">`
-        : "";
-
-      const items = category.items
+function renderHome() {
+  document.body.classList.remove("detail-view");
+  app.innerHTML = `
+    <div class="menu-label">MENU</div>
+    <section class="category-list" aria-label="Menu kategorileri">
+      ${menu
         .map(
-          (item) => `
-            <article class="menu-item">
-              <div>
-                <h3 class="item-name">${item.name}</h3>
-                ${item.description ? `<p class="item-description">${item.description}</p>` : ""}
-                ${item.note ? `<span class="item-note">${item.note}</span>` : ""}
-              </div>
-              <div class="item-price">${formatPrice(item.price)}</div>
-            </article>
+          (category) => `
+            <a class="category-tile" href="#/category/${slugify(category.title)}">
+              <img src="${category.image}" alt="" loading="lazy">
+              <h2 class="tile-title">${category.title}</h2>
+              <span class="tile-arrow" aria-hidden="true">›</span>
+            </a>
           `
         )
-        .join("");
-
-      return `
-        <section class="category-card" id="${id}">
-          <div class="category-hero">
-            ${image}
-            <h2 class="category-title">${category.title}</h2>
-          </div>
-          <div class="items">${items}</div>
-        </section>
-      `;
-    })
-    .join("");
+        .join("")}
+    </section>
+  `;
 }
 
-renderNavigation();
-renderMenu();
+function renderDetail(category) {
+  document.body.classList.add("detail-view");
+  app.innerHTML = `
+    <section class="detail-view-wrap">
+      <div class="detail-hero">
+        <img src="${category.image}" alt="" loading="lazy">
+        <h2 class="detail-title">${category.title}</h2>
+      </div>
+      <div class="item-list">
+        ${category.items
+          .map(
+            (item, index) => `
+              <button class="menu-item" type="button" data-item-index="${index}">
+                <div>
+                  <h3 class="item-name">${item.name}</h3>
+                  ${item.description ? `<p class="item-description">${item.description}</p>` : ""}
+                  ${item.note ? `<span class="item-note">${item.note}</span>` : ""}
+                </div>
+                <strong class="item-price">${formatPrice(item.price)}</strong>
+                <span class="info-dot" aria-hidden="true">i</span>
+              </button>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+
+  app.querySelectorAll(".menu-item").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = category.items[Number(button.dataset.itemIndex)];
+      openModal(item);
+    });
+  });
+}
+
+function render() {
+  const category = getCategoryFromHash();
+  if (category) {
+    renderDetail(category);
+  } else {
+    renderHome();
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function openModal(item) {
+  modalTitle.textContent = item.name;
+  modalDescription.textContent = item.description || item.note || "";
+  modalPrice.textContent = formatPrice(item.price);
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  modal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+backButton.addEventListener("click", () => {
+  window.location.hash = "";
+});
+
+document.querySelector(".modal-backdrop").addEventListener("click", closeModal);
+document.querySelector(".modal-close").addEventListener("click", closeModal);
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
+});
+
+window.addEventListener("hashchange", () => {
+  closeModal();
+  render();
+});
+
+render();
