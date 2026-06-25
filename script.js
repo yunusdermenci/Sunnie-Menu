@@ -219,6 +219,7 @@ function isAdminRoute() {
 }
 
 function renderHome() {
+  document.body.classList.add("home-view");
   document.body.classList.remove("detail-view", "admin-view");
   app.innerHTML = `
     <div class="menu-label">MENU</div>
@@ -236,15 +237,12 @@ function renderHome() {
         )
         .join("")}
     </section>
-    <div class="restaurant-entry">
-      <a href="#/admin" class="admin-entry-button">Restoran girişi</a>
-    </div>
   `;
 }
 
 function renderDetail(category) {
   document.body.classList.add("detail-view");
-  document.body.classList.remove("admin-view");
+  document.body.classList.remove("home-view", "admin-view");
   app.innerHTML = `
     <section class="detail-view-wrap">
       <div class="detail-hero ${category.image ? "" : "detail-hero-empty"}">
@@ -280,7 +278,7 @@ function renderDetail(category) {
 }
 
 function renderAdmin() {
-  document.body.classList.remove("detail-view");
+  document.body.classList.remove("home-view", "detail-view");
   document.body.classList.add("admin-view");
 
   if (!state.firebaseReady) {

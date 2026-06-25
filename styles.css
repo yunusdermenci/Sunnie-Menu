@@ -342,9 +342,10 @@ body.detail-view .back-button {
 }
 
 .site-footer {
-  width: min(720px, calc(100% - 32px));
+  position: relative;
+  width: min(1040px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 0 0 28px;
+  padding: 0 160px 28px;
   color: rgba(237, 118, 32, 0.45);
   font-size: 0.82rem;
   font-weight: 500;
@@ -356,13 +357,6 @@ body.detail-view .back-button {
   margin: 0 0 8px;
 }
 
-.restaurant-entry {
-  display: flex;
-  justify-content: flex-end;
-  padding: 26px 0 0;
-}
-
-.admin-entry-button,
 .admin-return,
 .admin-ghost {
   color: var(--orange);
@@ -371,12 +365,25 @@ body.detail-view .back-button {
   text-decoration: none;
 }
 
-.admin-entry-button {
+.footer-admin-link {
+  position: absolute;
+  right: 0;
+  top: 0;
   padding: 9px 12px;
   border: 1px solid rgba(237, 118, 32, 0.2);
   border-radius: 999px;
   background: rgba(255, 252, 247, 0.68);
   box-shadow: 0 6px 16px rgba(99, 55, 20, 0.08);
+  color: var(--orange);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+body.detail-view .footer-admin-link,
+body.admin-view .footer-admin-link {
+  display: none;
 }
 
 .notice {
@@ -775,6 +782,19 @@ code {
   .menu-item {
     min-height: 84px;
     padding: 18px 16px 18px 14px;
+  }
+
+  .site-footer {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 0 0 26px;
+  }
+
+  .footer-admin-link {
+    position: static;
+    justify-self: end;
+    margin-right: 8px;
   }
 
   .admin-grid {
