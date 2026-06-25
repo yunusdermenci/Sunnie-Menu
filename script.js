@@ -303,6 +303,7 @@ function renderAdmin() {
         <div>
           <span class="admin-kicker">Restoran girişi</span>
           <h2>Menü Yönetimi</h2>
+          <p class="admin-muted compact">Kategoriyi seç, bilgileri düzenle, kaydet. Değişiklikler müşterilere anında görünür.</p>
         </div>
         <div class="admin-actions">
           <a href="#" class="admin-ghost">Menüye dön</a>
@@ -330,7 +331,12 @@ function renderAdmin() {
         <div class="admin-editor">
           ${
             category
-              ? renderCategoryEditor(category)
+              ? `<div class="admin-current-card">
+                  <span>Seçili kategori</span>
+                  <strong>${escapeHtml(category.title)}</strong>
+                  <small>${category.items.length} ürün</small>
+                </div>
+                ${renderCategoryEditor(category)}`
               : `<p class="admin-muted">Düzenlemek için kategori ekle.</p>`
           }
         </div>
@@ -407,29 +413,35 @@ function renderCategoryEditor(category) {
       ${category.items
         .map(
           (item, index) => `
-            <form class="admin-item-form" data-item-form="${index}">
-              <div class="admin-item-head">
-                <strong>${escapeHtml(item.name || "Yeni Ürün")}</strong>
-                <button type="button" class="admin-danger" data-action="delete-item" data-item-index="${index}">Sil</button>
-              </div>
-              <label>
-                Ürün adı
-                <input name="name" value="${escapeHtml(item.name)}" required>
-              </label>
-              <label>
-                Açıklama
-                <textarea name="description" rows="2">${escapeHtml(item.description || "")}</textarea>
-              </label>
-              <label>
-                Not
-                <input name="note" value="${escapeHtml(item.note || "")}">
-              </label>
-              <label>
-                Fiyat
-                <input name="price" type="number" min="0" step="1" value="${Number(item.price) || 0}" required>
-              </label>
-              <button type="submit" class="admin-primary small">Ürünü kaydet</button>
-            </form>
+            <details class="admin-item-card" ${index === 0 ? "open" : ""}>
+              <summary>
+                <span>${escapeHtml(item.name || "Yeni Ürün")}</span>
+                <strong>${formatPrice(item.price)}</strong>
+              </summary>
+              <form class="admin-item-form" data-item-form="${index}">
+                <div class="admin-item-head">
+                  <strong>Ürün bilgileri</strong>
+                  <button type="button" class="admin-danger" data-action="delete-item" data-item-index="${index}">Sil</button>
+                </div>
+                <label>
+                  Ürün adı
+                  <input name="name" value="${escapeHtml(item.name)}" required>
+                </label>
+                <label>
+                  Açıklama
+                  <textarea name="description" rows="2">${escapeHtml(item.description || "")}</textarea>
+                </label>
+                <label>
+                  Not
+                  <input name="note" value="${escapeHtml(item.note || "")}">
+                </label>
+                <label>
+                  Fiyat
+                  <input name="price" type="number" min="0" step="1" value="${Number(item.price) || 0}" required>
+                </label>
+                <button type="submit" class="admin-primary small">Ürünü kaydet</button>
+              </form>
+            </details>
           `
         )
         .join("")}

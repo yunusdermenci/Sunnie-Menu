@@ -457,6 +457,10 @@ body.admin-view .footer-admin-link {
   line-height: 1.45;
 }
 
+.admin-muted.compact {
+  margin-bottom: 0;
+}
+
 .admin-topbar,
 .admin-section-title,
 .admin-item-head {
@@ -478,7 +482,7 @@ body.admin-view .footer-admin-link {
 
 .admin-grid {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 230px 1fr;
   gap: 20px;
 }
 
@@ -497,6 +501,9 @@ body.admin-view .footer-admin-link {
 .admin-category-list {
   display: grid;
   gap: 8px;
+  max-height: 430px;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .admin-category-list button {
@@ -523,6 +530,36 @@ body.admin-view .footer-admin-link {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.52);
+}
+
+.admin-current-card {
+  display: grid;
+  gap: 3px;
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid rgba(237, 118, 32, 0.18);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(237, 118, 32, 0.12), rgba(255, 252, 247, 0.72)),
+    rgba(255, 255, 255, 0.62);
+}
+
+.admin-current-card span {
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-current-card strong {
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.admin-current-card small {
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .admin-form label,
@@ -563,11 +600,62 @@ body.admin-view .footer-admin-link {
   gap: 14px;
 }
 
-.admin-item-form {
+.admin-item-card {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.48);
+}
+
+.admin-item-card summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-item-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.admin-item-card summary span {
+  color: var(--orange);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.admin-item-card summary strong {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.admin-item-card summary::after {
+  content: "Düzenle";
+  grid-column: 1 / -1;
+  width: max-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(237, 118, 32, 0.1);
+  color: var(--orange);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.admin-item-card[open] summary {
+  margin-bottom: 13px;
+}
+
+.admin-item-card[open] summary::after {
+  content: "Açık";
+}
+
+.admin-item-form {
+  display: grid;
+  gap: 12px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
 }
 
 .admin-primary,
@@ -704,26 +792,26 @@ code {
 
   .site-header {
     min-height: 64px;
-    padding: 14px 52px;
+    padding: 14px 38px;
   }
 
   .brand-line {
-    gap: 10px;
+    gap: 3px;
   }
 
   .brand-line h1 {
-    font-size: 0.8rem;
-    letter-spacing: 0.11em;
+    font-size: 0.88rem;
+    letter-spacing: 0.075em;
   }
 
   .sun-icon {
-    width: 23px;
-    height: 23px;
-    transform: scale(2);
+    width: 27px;
+    height: 27px;
+    transform: scale(2.3);
   }
 
   .sun-icon:last-child {
-    transform: scaleX(-1) scale(2);
+    transform: scaleX(-1) scale(2.3);
   }
 
   .back-button {
@@ -792,9 +880,40 @@ code {
   }
 
   .footer-admin-link {
-    position: static;
-    justify-self: end;
-    margin-right: 8px;
+    position: relative;
+    justify-self: center;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    margin-top: 2px;
+    padding: 0;
+    border-color: rgba(237, 118, 32, 0.12);
+    background: rgba(255, 252, 247, 0.34);
+    box-shadow: none;
+    font-size: 0;
+    opacity: 0.62;
+  }
+
+  .footer-admin-link::before {
+    content: "";
+    width: 13px;
+    height: 10px;
+    border: 2px solid currentColor;
+    border-radius: 3px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+
+  .footer-admin-link::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 8px;
+    margin-top: -13px;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 9px 9px 0 0;
   }
 
   .admin-grid {
@@ -811,12 +930,18 @@ code {
 
 @media (max-width: 430px) {
   .brand-line h1 {
-    max-width: 240px;
+    max-width: 265px;
+    font-size: 0.78rem;
+    letter-spacing: 0.055em;
   }
 
   .sun-icon {
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
+  }
+
+  .brand-line {
+    gap: 1px;
   }
 
   .menu-item {
