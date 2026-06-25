@@ -54,6 +54,10 @@ button {
 }
 
 .brand-line h1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.32em;
   margin: 0;
   color: var(--orange);
   font-size: clamp(0.92rem, 1.65vw, 1.28rem);
@@ -61,6 +65,10 @@ button {
   letter-spacing: 0.18em;
   line-height: 1.1;
   text-align: center;
+}
+
+.brand-line h1 span {
+  white-space: nowrap;
 }
 
 .sun-icon {
@@ -791,27 +799,31 @@ code {
   }
 
   .site-header {
-    min-height: 64px;
-    padding: 14px 38px;
+    min-height: 76px;
+    padding: 12px 22px;
   }
 
   .brand-line {
-    gap: 3px;
+    width: 100%;
+    gap: 12px;
   }
 
   .brand-line h1 {
-    font-size: 0.88rem;
-    letter-spacing: 0.075em;
+    display: grid;
+    gap: 6px;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    line-height: 1.02;
   }
 
   .sun-icon {
-    width: 27px;
-    height: 27px;
-    transform: scale(2.3);
+    width: 28px;
+    height: 28px;
+    transform: scale(2.15);
   }
 
   .sun-icon:last-child {
-    transform: scaleX(-1) scale(2.3);
+    transform: scaleX(-1) scale(2.15);
   }
 
   .back-button {
@@ -930,18 +942,18 @@ code {
 
 @media (max-width: 430px) {
   .brand-line h1 {
-    max-width: 265px;
-    font-size: 0.78rem;
-    letter-spacing: 0.055em;
+    max-width: 245px;
+    font-size: 1.22rem;
+    letter-spacing: 0.105em;
   }
 
   .sun-icon {
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
   }
 
   .brand-line {
-    gap: 1px;
+    gap: 8px;
   }
 
   .menu-item {
