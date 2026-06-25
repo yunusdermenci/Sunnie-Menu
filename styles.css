@@ -853,24 +853,24 @@ code {
   }
 
   .mobile-corner-sun {
-    position: fixed !important;
-    top: 13px !important;
+    position: absolute !important;
+    top: 50% !important;
     z-index: 9999 !important;
     display: block !important;
-    width: 65px;
-    height: 65px;
+    width: 78px;
+    height: 78px;
     object-fit: contain;
-    transform: none !important;
+    transform: translateY(-50%) !important;
     opacity: 1 !important;
     pointer-events: none;
   }
 
   .mobile-corner-sun-left {
-    left: 1px !important;
+    left: -6px !important;
   }
 
   .mobile-corner-sun-right {
-    left: min(321px, calc(100vw - 68px)) !important;
+    left: min(318px, calc(100% - 72px)) !important;
     right: auto !important;
   }
 
@@ -1018,16 +1018,16 @@ code {
   }
 
   .mobile-corner-sun {
-    width: 62px;
-    height: 62px;
+    width: 74px;
+    height: 74px;
   }
 
   .mobile-corner-sun-left {
-    left: 0 !important;
+    left: -5px !important;
   }
 
   .mobile-corner-sun-right {
-    left: min(322px, calc(100vw - 66px)) !important;
+    left: min(318px, calc(100% - 69px)) !important;
     right: auto !important;
   }
 
